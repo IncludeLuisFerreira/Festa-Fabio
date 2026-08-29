@@ -16,7 +16,7 @@ export const CONFIG = {
     {
       id: "festa-2",
       titulo: "Festa 2",
-      data: "2026-11-01T17:00:00",
+      data: "2026-11-01T10:00:00",
       nomeLocal: "Chácara BiG VALE da Tia Nadir",
       endereco: "Laranjeiras de Caldas, Caldas - MG, CEP 37780-000",
       coords: { lat: -21.812964, lon: -46.469268 }

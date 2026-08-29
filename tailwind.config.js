@@ -1,14 +1,16 @@
-tailwind.config = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./index.html", "./js/**/*.js"],
   theme: {
     extend: {
       colors: {
         festival: {
           bg: '#0a0a12',
           panel: '#12121f',
-          neon: '#facc15',     // amarelo vibrante (acento principal)
-          cyan: '#22d3ee',     // azul ciano neon
+          neon: '#facc15',      // amarelo vibrante (acento principal)
+          cyan: '#22d3ee',      // azul ciano neon
           turquoise: '#2dd4bf', // turquesa
-          hot: '#fb7185'       // rosa (estado negativo "não vou")
+          hot: '#fb7185'        // rosa (estado negativo "não vou")
         }
       },
       fontFamily: {

@@ -1,0 +1,23 @@
+{
+  "name": "site-convite-fabiano",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:css": "tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind.css --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IncludeLuisFerreira/Site-anivers-rio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/IncludeLuisFerreira/Site-anivers-rio/issues"
+  },
+  "homepage": "https://github.com/IncludeLuisFerreira/Site-anivers-rio#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
