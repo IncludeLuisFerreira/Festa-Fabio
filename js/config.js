@@ -1,6 +1,6 @@
 // CONFIGURAÇÕES DO EVENTO — ajuste aqui os dados reais
 export const CONFIG = {
-  dataEvento: new Date("2026-10-17T20:00:00").getTime(),
+  dataEvento: new Date("2026-10-17T10:00:00").getTime(),
   telefoneAniversariante: "5511999999999", // Com DDD e código do país (55)
   nomeAniversariante: "Fábio",
   nomeLocal: "Espaço Festa Anos Dourados",
