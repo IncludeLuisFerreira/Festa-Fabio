@@ -5,14 +5,16 @@ tailwind.config = {
         festival: {
           bg: '#0a0a12',
           panel: '#12121f',
-          neon: '#facc15',     // amarelo neon (destaque Rock in Rio)
-          hot: '#fb7185',      // rosa/vermelho vibrante
-          violet: '#a78bfa'    // violeta
+          neon: '#facc15',     // amarelo vibrante (acento principal)
+          cyan: '#22d3ee',     // azul ciano neon
+          turquoise: '#2dd4bf', // turquesa
+          hot: '#fb7185'       // rosa (estado negativo "não vou")
         }
       },
       fontFamily: {
-        display: ['"Archivo Black"', 'sans-serif'],
-        titling: ['Oswald', 'sans-serif'],
+        display: ['"Bungee"', 'cursive'],
+        titling: ['"Saira Stencil One"', 'cursive'],
+        brush: ['"Permanent Marker"', 'cursive'],
         body: ['Inter', 'sans-serif']
       },
       boxShadow: {
