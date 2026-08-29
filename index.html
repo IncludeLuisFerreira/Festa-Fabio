@@ -11,7 +11,7 @@
   <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Saira+Stencil+One&family=Permanent+Marker&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Tailwind CSS via CDN + configuração externa -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -25,8 +25,14 @@
 
   <!-- ============ HERO / CONTAGEM REGRESSIVA ============ -->
   <header class="bg-grain relative overflow-hidden min-h-screen flex flex-col">
-    <div class="pointer-events-none absolute inset-0 opacity-[0.06]"
-         style="background-image: radial-gradient(rgba(255,255,255,.6) 1px, transparent 1px); background-size: 22px 22px;"></div>
+    <div class="pointer-events-none absolute inset-0 neon-grid"></div>
+    <div class="pointer-events-none absolute inset-0 noise"></div>
+    <svg class="pointer-events-none absolute -left-8 top-24 h-40 w-72 opacity-20" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,70 C60,20 120,110 180,60 C240,20 270,40 300,30 L300,92 C240,112 180,82 120,122 C70,102 30,112 0,92 Z" fill="#facc15"/>
+    </svg>
+    <svg class="pointer-events-none absolute -right-10 bottom-20 h-40 w-72 opacity-15" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,40 C60,90 120,10 180,60 C240,100 270,80 300,90 L300,120 C240,110 180,120 120,60 C70,120 30,20 0,50 Z" fill="#22d3ee"/>
+    </svg>
 
     <nav class="relative z-10 mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
       <a href="#topo" class="font-titling text-lg font-bold tracking-[0.25em] text-yellow-400">FÁBIO<span class="text-white">.</span>EVENT</a>
@@ -41,7 +47,7 @@
       <div class="grid w-full items-center gap-12 md:grid-cols-5">
         <!-- Coluna esquerda: título -->
         <div class="flex flex-col items-center text-center md:col-span-3 md:items-start md:text-left">
-          <span class="fade-in-up inline-flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-4 py-1.5 font-titling text-xs font-semibold uppercase tracking-[0.3em] text-yellow-300">
+          <span class="fade-in-up inline-flex items-center gap-2 rounded-full border border-yellow-400/30 bg-yellow-400/10 px-4 py-1.5 font-brush text-sm text-yellow-300">
             <span class="relative flex h-2 w-2">
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-yellow-400 opacity-75"></span>
               <span class="relative inline-flex h-2 w-2 rounded-full bg-yellow-400"></span>
@@ -52,7 +58,7 @@
           <h1 class="fade-in-up mt-6 font-display text-5xl leading-none sm:text-7xl md:text-6xl xl:text-8xl" style="animation-delay:.12s">
             <span class="text-gradient">FÁBIO</span>
           </h1>
-          <p class="fade-in-up mt-3 font-titling text-xl font-semibold uppercase tracking-[0.5em] text-white/70 sm:text-2xl" style="animation-delay:.2s">
+          <p class="fade-in-up mt-3 font-brush text-2xl text-white/80 sm:text-3xl" style="animation-delay:.2s">
             Celebration
           </p>
           <p class="fade-in-up mt-4 max-w-xl text-base text-white/60 sm:text-lg" style="animation-delay:.28s">

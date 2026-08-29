@@ -77,18 +77,18 @@ export function initRSVP() {
     }
 
     const linhas = [
-      "🎉 *Confirmação de Presença - Aniversário* 🎉",
+      "*Confirmação de Presença - Aniversário*",
       "",
-      "👤 *Nome:* " + nome
+      "*Nome:* " + nome
     ];
 
     if (selecionadas.length === 0) {
-      linhas.push("✅ *Presença:* Não poderei ir");
+      linhas.push("*Presença:* Não poderei ir");
     } else {
-      linhas.push("✅ *Presença:* Sim, vou!");
-      linhas.push("🎪 *Festa(s):* " + selecionadas.map((f) => f.titulo).join(" e "));
+      linhas.push("*Presença:* Sim, vou!");
+      linhas.push("*Festa(s):* " + selecionadas.map((f) => f.titulo).join(" e "));
       selecionadas.forEach((f) => {
-        linhas.push("   📅 " + f.titulo + ": " + formatarData(f) + " · " + f.nomeLocal);
+        linhas.push("  " + f.titulo + ": " + formatarData(f) + " - " + f.nomeLocal);
       });
 
       let acompanhantes = "Nenhum";
@@ -100,10 +100,10 @@ export function initRSVP() {
       } else if (nomes) {
         acompanhantes = nomes;
       }
-      linhas.push("👥 *Acompanhantes:* " + acompanhantes);
+      linhas.push("*Acompanhantes:* " + acompanhantes);
     }
 
-    linhas.push("💬 *Recado:* " + (recado || "Sem recado"));
+    linhas.push("*Recado:* " + (recado || "Sem recado"));
 
     const textoMensagem = linhas.join("\n");
     const url = "https://wa.me/" + CONFIG.telefoneAniversariante + "?text=" + encodeURIComponent(textoMensagem);
