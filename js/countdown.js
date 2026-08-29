@@ -1,14 +1,21 @@
 import { CONFIG } from "./config.js";
 
 // CONTAGEM REGRESSIVA (estilo Flip Clock do magicui)
-const unidades = {
-  dias:   { top: "dias-top",    bottom: "dias-bottom",    card: "card-dias" },
-  horas:  { top: "horas-top",   bottom: "horas-bottom",   card: "card-horas" },
-  minutos:{ top: "minutos-top", bottom: "minutos-bottom", card: "card-minutos" },
-  segundos:{top: "segundos-top",bottom: "segundos-bottom",card: "card-segundos" }
-};
+// Gera um cronômetro para cada festa definida em CONFIG.festas.
+
+const UNIDADES = [
+  { chave: "dias", label: "Dias" },
+  { chave: "horas", label: "Horas" },
+  { chave: "minutos", label: "Minutos" },
+  { chave: "segundos", label: "Segundos" }
+];
 
 const pad = (n) => String(n).padStart(2, "0");
+
+function formatarDataCurta(festa) {
+  const d = new Date(festa.data);
+  return pad(d.getDate()) + "/" + pad(d.getMonth() + 1);
+}
 
 function criarFlap(kind, valor) {
   const flap = document.createElement("div");
@@ -20,68 +27,131 @@ function criarFlap(kind, valor) {
   return flap;
 }
 
-function atualizarUnidade(chave, valor) {
-  const u = unidades[chave];
-  const topEl = document.getElementById(u.top);
-  const bottomEl = document.getElementById(u.bottom);
-  const card = document.getElementById(u.card);
-  const novoValor = pad(valor);
+function criarUnidade(unidade) {
+  const unit = document.createElement("div");
+  unit.className = "flip-unit";
 
-  if (topEl.textContent === novoValor) return;
+  const card = document.createElement("div");
+  card.className = "flip-card";
 
-  const valorAntigo = topEl.textContent;
-  topEl.textContent = novoValor;
+  const top = document.createElement("div");
+  top.className = "flip-half flip-top";
+  const numTop = document.createElement("span");
+  numTop.className = "num";
+  numTop.textContent = "00";
+  top.appendChild(numTop);
 
-  // Remove flaps anteriores (caso o timer dispare antes do fim da animação)
-  card.querySelectorAll(".flap").forEach(f => f.remove());
+  const bottom = document.createElement("div");
+  bottom.className = "flip-half flip-bottom";
+  const numBottom = document.createElement("span");
+  numBottom.className = "num";
+  numBottom.textContent = "00";
+  bottom.appendChild(numBottom);
 
-  // Metade de cima: "cai para fora" revelando o novo valor
-  const flapTop = criarFlap("top", valorAntigo);
-  // Metade de baixo: "entra" mostrando a parte inferior do novo valor
-  const flapBottom = criarFlap("bottom", novoValor);
+  card.appendChild(top);
+  card.appendChild(bottom);
 
-  card.appendChild(flapTop);
-  card.appendChild(flapBottom);
+  const label = document.createElement("p");
+  label.className = "mt-3 whitespace-nowrap font-titling text-[10px] font-semibold uppercase tracking-[0.2em] text-yellow-400";
+  label.textContent = unidade.label;
 
-  bottomEl.textContent = novoValor;
+  unit.appendChild(card);
+  unit.appendChild(label);
 
-  setTimeout(() => {
-    flapTop.remove();
-    flapBottom.remove();
-  }, 520);
+  return { card, top: numTop, bottom: numBottom, unit };
 }
 
-function inicializarContagem() {
-  const agora = new Date().getTime();
-  const diff = CONFIG.dataEvento - agora;
+function criarContagem(container, dataEvento, nomeAniversariante) {
+  const refs = {};
+  const wrapper = document.createElement("div");
+  wrapper.className = "flex items-start justify-center gap-2 sm:gap-3";
 
-  if (diff < 0) {
-    const container = document.getElementById("countdown");
-    container.innerHTML =
-      '<div class="w-full rounded-2xl border border-yellow-400/40 bg-yellow-400/10 px-6 py-8">' +
-      '<p class="font-display text-2xl sm:text-4xl text-yellow-300">🎉 O evento começou!</p>' +
-      '<p class="mt-2 text-white/60">Chegue logo e venha celebrar!</p></div>';
-    document.getElementById("mensagem-dias").textContent = "";
-    return;
+  UNIDADES.forEach((u, i) => {
+    const { card, top, bottom, unit } = criarUnidade(u);
+    refs[u.chave] = { card, top, bottom };
+    wrapper.appendChild(unit);
+    if (i < UNIDADES.length - 1) {
+      const sep = document.createElement("span");
+      sep.className = "pt-6 font-display text-2xl text-white/30 sm:text-3xl";
+      sep.textContent = ":";
+      wrapper.appendChild(sep);
+    }
+  });
+
+  container.appendChild(wrapper);
+
+  const mensagem = document.createElement("p");
+  mensagem.className = "mt-6 text-center font-body text-sm text-white/60";
+  container.appendChild(mensagem);
+
+  function atualizarUnidade(chave, valor) {
+    const u = refs[chave];
+    const novoValor = pad(valor);
+    if (u.top.textContent === novoValor) return;
+
+    const valorAntigo = u.top.textContent;
+    u.top.textContent = novoValor;
+
+    // Remove flaps anteriores (caso o timer dispare antes do fim da animação)
+    u.card.querySelectorAll(".flap").forEach((f) => f.remove());
+
+    const flapTop = criarFlap("top", valorAntigo);
+    const flapBottom = criarFlap("bottom", novoValor);
+
+    u.card.appendChild(flapTop);
+    u.card.appendChild(flapBottom);
+
+    u.bottom.textContent = novoValor;
+
+    setTimeout(() => {
+      flapTop.remove();
+      flapBottom.remove();
+    }, 520);
   }
 
-  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+  function tick() {
+    const agora = new Date().getTime();
+    const diff = dataEvento - agora;
 
-  atualizarUnidade("dias", dias);
-  atualizarUnidade("horas", horas);
-  atualizarUnidade("minutos", minutos);
-  atualizarUnidade("segundos", segundos);
+    if (diff < 0) {
+      container.innerHTML =
+        '<div class="w-full rounded-2xl border border-yellow-400/40 bg-yellow-400/10 px-6 py-8">' +
+        '<p class="font-display text-2xl sm:text-4xl text-yellow-300">🎉 A festa começou!</p>' +
+        '<p class="mt-2 text-white/60">Chegue logo e venha celebrar!</p></div>';
+      return;
+    }
 
-  document.getElementById("mensagem-dias").textContent =
-    dias > 0
-      ? "Faltam apenas " + dias + (dias === 1 ? " dia" : " dias") + " para a festa de " + CONFIG.nomeAniversariante + "!"
-      : "É hoje! A festa começa em instantes!";
+    const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutos = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((diff % (1000 * 60)) / 1000);
+
+    atualizarUnidade("dias", dias);
+    atualizarUnidade("horas", horas);
+    atualizarUnidade("minutos", minutos);
+    atualizarUnidade("segundos", segundos);
+
+    mensagem.textContent =
+      dias > 0
+        ? "Faltam " + dias + (dias === 1 ? " dia" : " dias") + " para a festa de " + nomeAniversariante + "!"
+        : "É hoje! A festa começa em instantes!";
+  }
+
+  tick();
+  setInterval(tick, 1000);
 }
 
-export function initCountdown() {
-  inicializarContagem();
-  setInterval(inicializarContagem, 1000);
+export function initCountdowns() {
+  CONFIG.festas.forEach((festa) => {
+    const titulo = document.getElementById("titulo-" + festa.id);
+    const container = document.getElementById("countdown-" + festa.id);
+    if (!container) return;
+
+    if (titulo) {
+      titulo.textContent = festa.titulo + " · " + formatarDataCurta(festa);
+    }
+
+    const dataEvento = new Date(festa.data).getTime();
+    criarContagem(container, dataEvento, CONFIG.nomeAniversariante);
+  });
 }
